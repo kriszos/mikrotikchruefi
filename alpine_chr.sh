@@ -15,7 +15,7 @@ mount -t vfat /dev/nbd0p1 /run/runmount/
 rsync -a /run/runefipart/ /run/runmount/
 umount /dev/nbd0p1
 mount /dev/nbd0p2 /run/runmount/
-curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.vendor-data > /run/runmount/rw/autorun.scr
+#curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.vendor-data > /run/runmount/rw/autorun.scr
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/runmount/rw/autorun.scr
 umount /dev/nbd0p2
 (

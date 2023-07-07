@@ -4,8 +4,8 @@
 #apt update
 #apt install -y qemu-utils curl rsync gdisk wget unzip
 echo "download"
-wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
-#wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
+#wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
+wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.5/chr-7.5.img.zip -O /run/chr.img.zip
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.3beta40/chr-7.3beta40.img.zip -O /run/chr.img.zip
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.3beta40/chr-7.3beta40.vhdx -O /run/chr.img

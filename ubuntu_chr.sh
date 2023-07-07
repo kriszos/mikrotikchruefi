@@ -52,6 +52,9 @@ mount /dev/nbd0p2 /run/tmpmount/
 #cat import-p1.rsc > /run/tmpmount/rw/autorun.scr
 #       curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.vendor-data > /run/tmpmount/rw/autorun.scr
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/tmpmount/rw/autorun.scr
+echo "disable lxd-agent"
+systemctl stop lxd-agent
+systemctl disable lxd-agent
 #nano /run/tmpmount/rw/autorun.scr
 echo "umount second partition"
 umount /dev/nbd0p2

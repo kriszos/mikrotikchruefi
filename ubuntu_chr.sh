@@ -2,8 +2,7 @@
 
 echo "install packages"
 apt update
-apt install 
-apk add qemu-img curl rsync gptfdisk dosfstools
+apt install -y qemu-utils curl rsync gdisk wget unzip
 echo "download"
 wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
@@ -35,11 +34,11 @@ rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
 umount /dev/nbd0p1
 echo "format first partion as fat32"
-#       mkfs -t fat /dev/nbd0p1
-        mkfs.fat /dev/nbd0p1
+       mkfs -t fat /dev/nbd0p1
+#        mkfs.fat /dev/nbd0p1
 echo "mount first partition"
-#       mount /dev/nbd0p1 /run/tmpmount/
-        mount -t vfat /dev/nbd0p1 /run/tmpmount/
+       mount /dev/nbd0p1 /run/tmpmount/
+#        mount -t vfat /dev/nbd0p1 /run/tmpmount/
 echo "copy efi/boot files to first partition"
 rsync -a /run/tmpefipart/ /run/tmpmount/
 echo "umount first partition"
@@ -84,8 +83,8 @@ echo "script finished, created file chr.qcow2"
 #qemu-img convert -f qcow2 -O vhdx chr.qcow2 chr.vhdx
 qemu-img convert -f qcow2 -O raw chr.qcow2 chr.img
 #exit 0
-echo "wait 180 seconds to avoid race condition in cloud-init"
-sleep 180
+#echo "wait 180 seconds to avoid race condition in cloud-init"
+#sleep 180
 sync
 dd if=chr.img of=/dev/sda bs=4M
 sync

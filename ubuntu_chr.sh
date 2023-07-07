@@ -85,7 +85,7 @@ qemu-img convert -f qcow2 -O raw chr.qcow2 chr.img
 #exit 0
 #echo "wait 180 seconds to avoid race condition in cloud-init"
 #sleep 180
-sync
+#sync
 dd if=chr.img of=/dev/sda bs=4M
-sync
+#sync
 reboot

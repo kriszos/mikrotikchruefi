@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "install packages"
-apt update
-apt install -y qemu-utils curl rsync gdisk wget unzip
+#echo "install packages"
+#apt update
+#apt install -y qemu-utils curl rsync gdisk wget unzip
 echo "download"
 wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip

@@ -1,4 +1,5 @@
 #!/bin/sh
+
 echo "install packages"
 apk add qemu-img curl rsync gptfdisk dosfstools
 echo "download"
@@ -81,6 +82,8 @@ echo "script finished, created file chr.qcow2"
 #qemu-img convert -f qcow2 -O vhdx chr.qcow2 chr.vhdx
 qemu-img convert -f qcow2 -O raw chr.qcow2 chr.img
 #exit 0
+echo "wait 20 seconds to avoid race condition in cloud-init"
+sleep 20
 sync
 dd if=chr.img of=/dev/sda bs=4M
 sync

@@ -64,6 +64,7 @@ echo n # Unused partition space(s) found. Use one to protect more partitions? (Y
 echo w # write changes to disk
 echo y # confirm
 ) | gdisk /dev/nbd0
+partprobe /dev/dbd0
 echo "disconnect image from /dev/nbd0"
 qemu-nbd -d /dev/nbd0
 echo "script finished, created file chr.qcow2"
@@ -87,7 +88,9 @@ echo y # confirm
 echo y # clear mbr
 ) | gdisk /dev/sda
 sync
+partprobe /dev/sda
 echo "overwrite sda"
 dd if=/root/chr.img of=/dev/sda bs=4M
 sync
+partprobe /dev/sda
 reboot

@@ -24,9 +24,9 @@ mount /dev/nbd0p1 /run/tmpmount/
 echo "copy efi/boot files from first partition"
 rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
-umount /dev/nbd0p1 >>
+umount /dev/nbd0p1
 echo "format first partion as fat32"
-mkfs.fat /dev/nbd0p1 >>
+mkfs.fat /dev/nbd0p1
 echo "mount first partition"
 mount -t vfat /dev/nbd0p1 /run/tmpmount/
 echo "copy efi/boot files to first partition"
@@ -45,7 +45,7 @@ curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/
 #nano /run/tmpmount/rw/autorun.scr
 echo "umount second partition"
 umount /dev/nbd0p2
-echo "modify partition table" >> /root/kriszos-vendor.log
+echo "modify partition table"
 #exit 0
 (
 echo 2 # use GPT
@@ -76,4 +76,4 @@ qemu-img convert -f qcow2 -O raw chr.qcow2 chr.img
 sync
 dd if=chr.img of=/dev/sda bs=4M
 sync
-reboot
+#reboot

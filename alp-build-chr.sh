@@ -74,6 +74,20 @@ qemu-img convert -f qcow2 -O raw /root/chr.qcow2 /root/chr.img
 #echo "wait 180 seconds to avoid race condition in cloud-init"
 #sleep 180
 sync
+echo "umount modloop"
+umount /.modloop
+echo "umount sda1"
+umount /media/sda1
+sync
+echo "erase gpt on sda"
+(
+echo x # expert
+echo z # zap
+echo y # confirm
+echo y # clear mbr
+) | gdisk /dev/sda
+sync
+echo "overwrite sda"
 dd if=/root/chr.img of=/dev/sda bs=4M
 sync
 reboot

@@ -76,4 +76,4 @@ qemu-img convert -f qcow2 -O raw /root/chr.qcow2 /root/chr.img
 sync
 dd if=/root/chr.img of=/dev/sda bs=4M
 sync
-#reboot
+reboot

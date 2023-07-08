@@ -69,7 +69,7 @@ echo n # Unused partition space(s) found. Use one to protect more partitions? (Y
 echo w # write changes to disk
 echo y # confirm
 ) | gdisk /dev/nbd0
-partprobe /dev/dbd0
+partprobe /dev/nbd0
 echo "disconnect image from /dev/nbd0"
 qemu-nbd -d /dev/nbd0
 echo "script finished, created file chr.qcow2"

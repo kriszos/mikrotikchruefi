@@ -92,4 +92,12 @@ echo "overwrite sda"
 dd if=/root/chr.img of=/dev/sda bs=4M
 sync
 partprobe /dev/sda
-reboot
+(
+echo x # expert
+echo e # relocate backup table
+echo w # write changes
+echo y # confirm
+) | gdisk /dev/sda
+sync
+partprobe /dev/sda
+#reboot

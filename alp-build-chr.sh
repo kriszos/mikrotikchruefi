@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "install packages"
-apk add qemu-img curl rsync gptfdisk dosfstools
+apk add qemu-img curl rsync gptfdisk dosfstools efibootmgr lsblk
 modprobe nbd max_part=8
 echo "download"
 wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip

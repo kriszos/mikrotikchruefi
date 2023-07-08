@@ -1,5 +1,4 @@
 #!/bin/sh
-touch /root/kriszos-vendor.log
 echo "install packages"
 apk add qemu-img curl rsync gptfdisk dosfstools
 modprobe nbd max_part=8

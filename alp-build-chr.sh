@@ -2,6 +2,7 @@
 echo "install packages"
 apk add qemu-img curl rsync gptfdisk dosfstools efibootmgr lsblk
 modprobe nbd max_part=8
+modprobe vfat
 echo "download"
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
 wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
@@ -15,6 +16,7 @@ qemu-img convert -f raw -O qcow2 /run/chr.img /root/chr.qcow2
 #qemu-img convert -f vhdx -O qcow2 /run/chr.img chr.qcow2
 echo "connect image as /dev/nbd0"
 qemu-nbd -c /dev/nbd0 /root/chr.qcow2
+partprobe /dev/nbd0
 echo "create tmp directories"
 mkdir /run/tmpmount/
 mkdir /run/tmpefipart/
@@ -23,15 +25,18 @@ mount -t ext2 /dev/nbd0p1 /run/tmpmount/
 echo "copy efi/boot files from first partition"
 rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
-umount /dev/nbd0p1
+#umount /dev/nbd0p1
+umount /run/tmpmount
 echo "format first partion as fat32"
-mkfs.fat /dev/nbd0p1
+#mkfs.fat /dev/nbd0p1
+mkfs.vfat /dev/nbd0p1
 echo "mount first partition"
 mount -t vfat /dev/nbd0p1 /run/tmpmount/
 echo "copy efi/boot files to first partition"
 rsync -a /run/tmpefipart/ /run/tmpmount/
 echo "umount first partition"
-umount /dev/nbd0p1
+#umount /dev/nbd0p1
+umount /run/tmpmount
 echo "mount second partition"
 mount -t ext3 /dev/nbd0p2 /run/tmpmount/
 #echo
@@ -43,7 +48,8 @@ echo "curl from lxd user-data"
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/tmpmount/rw/autorun.scr
 #nano /run/tmpmount/rw/autorun.scr
 echo "umount second partition"
-umount /dev/nbd0p2
+#umount /dev/nbd0p2
+umount /run/tmpmount
 echo "modify partition table"
 #exit 0
 (

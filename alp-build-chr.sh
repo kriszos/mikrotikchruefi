@@ -15,7 +15,7 @@ echo "convert raw to qcow2"
 qemu-img convert -f raw -O qcow2 /run/chr.img /root/chr.qcow2
 #qemu-img convert -f vhdx -O qcow2 /run/chr.img chr.qcow2
 echo "connect image as /dev/nbd0"
-qemu-nbd -c /dev/nbd0 chr.qcow2
+qemu-nbd -c /dev/nbd0 /root/chr.qcow2
 echo "create tmp directories"
 mkdir /run/tmpmount/
 mkdir /run/tmpefipart/
@@ -69,11 +69,11 @@ qemu-nbd -d /dev/nbd0
 echo "script finished, created file chr.qcow2"
 #qemu-img convert -f qcow2 -O vhdx chr.qcow2 chr.vhdx
 echo "convert to img"
-qemu-img convert -f qcow2 -O raw chr.qcow2 chr.img
+qemu-img convert -f qcow2 -O raw /root/chr.qcow2 /root/chr.img
 #exit 0
 #echo "wait 180 seconds to avoid race condition in cloud-init"
 #sleep 180
 sync
-dd if=chr.img of=/dev/sda bs=4M
+dd if=/root/chr.img of=/dev/sda bs=4M
 sync
 #reboot

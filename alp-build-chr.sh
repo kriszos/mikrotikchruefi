@@ -27,11 +27,9 @@ rsync -a /run/tmpmount/ /run/tmpefipart/ >> /root/kriszos-vendor.log
 echo "umount first partition" >> /root/kriszos-vendor.log
 umount /dev/nbd0p1 >> /root/kriszos-vendor.log
 echo "format first partion as fat32" >> /root/kriszos-vendor.log
-#       mkfs -t fat /dev/nbd0p1
-        mkfs.fat /dev/nbd0p1 >> /root/kriszos-vendor.log
+mkfs.fat /dev/nbd0p1 >> /root/kriszos-vendor.log
 echo "mount first partition" >> /root/kriszos-vendor.log
-#       mount /dev/nbd0p1 /run/tmpmount/
-        mount -t vfat /dev/nbd0p1 /run/tmpmount/ >> /root/kriszos-vendor.log
+mount -t vfat /dev/nbd0p1 /run/tmpmount/ >> /root/kriszos-vendor.log
 echo "copy efi/boot files to first partition" >> /root/kriszos-vendor.log
 rsync -a /run/tmpefipart/ /run/tmpmount/ >> /root/kriszos-vendor.log
 echo "umount first partition" >> /root/kriszos-vendor.log
@@ -43,7 +41,6 @@ mount /dev/nbd0p2 /run/tmpmount/ >> /root/kriszos-vendor.log
 #sleep 5
 #cat initial.rsc > /run/tmpmount/rw/autorun.scr
 #cat import-p1.rsc > /run/tmpmount/rw/autorun.scr
-#       curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.vendor-data > /run/tmpmount/rw/autorun.scr
 echo "curl from lxd user-data" >> /root/kriszos-vendor.log
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/tmpmount/rw/autorun.scr
 #nano /run/tmpmount/rw/autorun.scr

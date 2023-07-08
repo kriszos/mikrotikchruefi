@@ -2,6 +2,7 @@
 touch /root/kriszos-vendor.log
 echo "install packages"
 apk add qemu-img curl rsync gptfdisk dosfstools
+modprobe nbd max_part=8
 echo "download"
 wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
@@ -13,8 +14,6 @@ unzip -p /run/chr.img.zip > /run/chr.img
 echo "convert raw to qcow2"
 qemu-img convert -f raw -O qcow2 /run/chr.img /root/chr.qcow2
 #qemu-img convert -f vhdx -O qcow2 /run/chr.img chr.qcow2
-echo "remove raw image"
-modprobe nbd max_part=8
 echo "connect image as /dev/nbd0"
 qemu-nbd -c /dev/nbd0 chr.qcow2
 echo "create tmp directories"

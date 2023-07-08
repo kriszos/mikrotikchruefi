@@ -20,7 +20,7 @@ echo "create tmp directories"
 mkdir /run/tmpmount/
 mkdir /run/tmpefipart/
 echo "mount first partition"
-mount /dev/nbd0p1 /run/tmpmount/
+mount -t ext2 /dev/nbd0p1 /run/tmpmount/
 echo "copy efi/boot files from first partition"
 rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
@@ -34,7 +34,7 @@ rsync -a /run/tmpefipart/ /run/tmpmount/
 echo "umount first partition"
 umount /dev/nbd0p1
 echo "mount second partition"
-mount /dev/nbd0p2 /run/tmpmount/
+mount -t ext3 /dev/nbd0p2 /run/tmpmount/
 #echo
 #echo "in 5 seconds you can modify initial config of chr"
 #sleep 5

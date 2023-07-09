@@ -163,4 +163,4 @@ echo y # confirm
 sync
 partprobe /dev/sda
 efibootmgr -c -d /dev/sda -l \\EFI\\BOOT\\BOOTX64.EFI -L "RouterOS"
-reboot
+#reboot

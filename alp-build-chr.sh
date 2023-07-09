@@ -34,7 +34,10 @@ mkdir /run/tmpmount
 mkdir /run/tmpefipart
 echo "mount first partition"
 sleep 2
-mount -t ext2 /dev/loop5p1 /run/tmpmount/
+while ! mount -t ext2 /dev/loop5p1 /run/tmpmount/
+do
+sleep 1
+done
 ls /dev/loop5*
 lsblk
 echo "copy efi/boot files from first partition"
@@ -44,7 +47,10 @@ echo "umount first partition"
 sleep 2
 ls /dev/loop5*
 lsblk
-umount /run/tmpmount
+while ! umount /run/tmpmount
+do
+sleep 1
+done
 sleep 2
 partprobe /dev/loop5
 ls /dev/loop5*
@@ -53,19 +59,20 @@ lsblk
 sync
 echo "format first partion as fat32"
 #mkfs.fat /dev/loop5p1
-mkfs.vfat /dev/loop5p1
-mkfs.vfat /dev/loop5p1
-mkfs.vfat /dev/loop5p1
-mkfs.vfat /dev/loop5p1
-mkfs.vfat /dev/loop5p1
-mkfs.vfat /dev/loop5p1
+while ! mkfs.vfat /dev/loop5p1
+do
+sleep 1
+done
 sleep 2
 partprobe /dev/loop5
 ls /dev/loop5*
 lsblk
 echo "mount first partition"
 sleep 2
-mount -t vfat /dev/loop5p1 /run/tmpmount/
+while ! mount -t vfat /dev/loop5p1 /run/tmpmount/
+do
+sleep 1
+done
 ls /dev/loop5*
 lsblk
 echo "copy efi/boot files to first partition"
@@ -78,7 +85,10 @@ partprobe /dev/loop5
 sleep 2
 ls /dev/loop5*
 lsblk
-umount /run/tmpmount
+while ! umount /run/tmpmount
+do
+sleep 1
+done
 sleep 2
 echo "mount second partition"
 ls /dev/loop5*
@@ -87,18 +97,16 @@ partprobe /dev/loop5
 sleep 2
 ls /dev/loop5*
 lsblk
-mount -t ext4 /dev/loop5p2 /run/tmpmount/
+while ! mount -t ext4 /dev/loop5p2 /run/tmpmount/
+do
+sleep 1
+done
 sleep 2
 ls /dev/loop5*
 lsblk
 partprobe /dev/loop5
 ls /dev/loop5*
 lsblk
-#echo
-#echo "in 5 seconds you can modify initial config of chr"
-#sleep 5
-#cat initial.rsc > /run/tmpmount/rw/autorun.scr
-#cat import-p1.rsc > /run/tmpmount/rw/autorun.scr
 echo "curl from lxd user-data"
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/tmpmount/rw/autorun.scr
 #nano /run/tmpmount/rw/autorun.scr
@@ -109,7 +117,10 @@ ls /dev/loop5*
 lsblk
 #umount /dev/nbd0p2
 sleep 2
-umount /run/tmpmount
+while ! umount /run/tmpmount
+do
+sleep 1
+done
 ls /dev/loop5*
 lsblk
 partprobe /dev/loop5

@@ -33,7 +33,7 @@ mkdir /run/tmpefipart
 mkdir /run/tmpmount
 mkdir /run/tmpefipart
 echo "mount first partition"
-sleep 2
+#sleep 2
 while ! mount -t ext2 /dev/loop5p1 /run/tmpmount/
 do
 sync
@@ -46,7 +46,7 @@ echo "copy efi/boot files from first partition"
 rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
 #umount /dev/nbd0p1
-sleep 2
+#sleep 2
 ls /dev/loop5*
 lsblk
 while ! umount /run/tmpmount
@@ -55,7 +55,7 @@ sync
 sleep 1
 partprobe /dev/loop5
 done
-sleep 2
+#sleep 2
 partprobe /dev/loop5
 ls /dev/loop5*
 sync
@@ -69,12 +69,12 @@ sync
 sleep 1
 partprobe /dev/loop5
 done
-sleep 2
+#sleep 2
 partprobe /dev/loop5
 ls /dev/loop5*
 lsblk
 echo "mount first partition"
-sleep 2
+#sleep 2
 while ! mount -t vfat /dev/loop5p1 /run/tmpmount/
 do
 sync
@@ -84,13 +84,13 @@ done
 ls /dev/loop5*
 lsblk
 echo "copy efi/boot files to first partition"
-sleep 2
+#sleep 2
 rsync -a /run/tmpefipart/ /run/tmpmount/
 echo "umount first partition"
-sleep 2
+#sleep 2
 partprobe /dev/loop5
 #umount /dev/nbd0p1
-sleep 2
+#sleep 2
 ls /dev/loop5*
 lsblk
 while ! umount /run/tmpmount
@@ -99,12 +99,12 @@ sync
 sleep 1
 partprobe /dev/loop5
 done
-sleep 2
+#sleep 2
 echo "mount second partition"
 ls /dev/loop5*
 lsblk
 partprobe /dev/loop5
-sleep 2
+#sleep 2
 ls /dev/loop5*
 lsblk
 while ! mount -t ext4 /dev/loop5p2 /run/tmpmount/
@@ -113,7 +113,7 @@ sync
 sleep 1
 partprobe /dev/loop5
 done
-sleep 2
+#sleep 2
 ls /dev/loop5*
 lsblk
 partprobe /dev/loop5
@@ -123,12 +123,12 @@ echo "curl from lxd user-data"
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/tmpmount/rw/autorun.scr
 #nano /run/tmpmount/rw/autorun.scr
 echo "umount second partition"
-sleep 2
+#sleep 2
 partprobe /dev/loop5
 ls /dev/loop5*
 lsblk
 #umount /dev/nbd0p2
-sleep 2
+#sleep 2
 while ! umount /run/tmpmount
 do
 sync
@@ -140,7 +140,7 @@ lsblk
 partprobe /dev/loop5
 ls /dev/loop5*
 lsblk
-sleep 2
+#sleep 2
 echo "modify partition table"
 #exit 0
 (

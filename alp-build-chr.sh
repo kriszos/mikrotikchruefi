@@ -6,9 +6,6 @@ modprobe vfat
 echo "download"
 #wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
 wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
-#wget --no-check-certificate https://download.mikrotik.com/routeros/7.5/chr-7.5.img.zip -O /run/chr.img.zip
-#wget --no-check-certificate https://download.mikrotik.com/routeros/7.3beta40/chr-7.3beta40.img.zip -O /run/chr.img.zip
-#wget --no-check-certificate https://download.mikrotik.com/routeros/7.3beta40/chr-7.3beta40.vhdx -O /run/chr.img
 echo "unzip"
 unzip -p /run/chr.img.zip > /run/chr.img
 echo "convert raw to qcow2"
@@ -27,18 +24,23 @@ rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
 #umount /dev/nbd0p1
 umount /run/tmpmount
+partprobe /dev/nbd0
 echo "format first partion as fat32"
 #mkfs.fat /dev/nbd0p1
 mkfs.vfat /dev/nbd0p1
+partprobe /dev/nbd0
 echo "mount first partition"
 mount -t vfat /dev/nbd0p1 /run/tmpmount/
 echo "copy efi/boot files to first partition"
 rsync -a /run/tmpefipart/ /run/tmpmount/
 echo "umount first partition"
+partprobe /dev/nbd0
 #umount /dev/nbd0p1
 umount /run/tmpmount
 echo "mount second partition"
+partprobe /dev/nbd0
 mount -t ext3 /dev/nbd0p2 /run/tmpmount/
+partprobe /dev/nbd0
 #echo
 #echo "in 5 seconds you can modify initial config of chr"
 #sleep 5
@@ -48,8 +50,10 @@ echo "curl from lxd user-data"
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/tmpmount/rw/autorun.scr
 #nano /run/tmpmount/rw/autorun.scr
 echo "umount second partition"
+partprobe /dev/nbd0
 #umount /dev/nbd0p2
 umount /run/tmpmount
+partprobe /dev/nbd0
 echo "modify partition table"
 #exit 0
 (
@@ -70,8 +74,10 @@ echo w # write changes to disk
 echo y # confirm
 ) | gdisk /dev/nbd0
 partprobe /dev/nbd0
+sync
 echo "disconnect image from /dev/nbd0"
 qemu-nbd -d /dev/nbd0
+partprobe /dev/nbd0
 echo "script finished, created file chr.qcow2"
 #qemu-img convert -f qcow2 -O vhdx chr.qcow2 chr.vhdx
 echo "convert to img"

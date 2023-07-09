@@ -7,8 +7,8 @@ modprobe ext2
 modprobe ext3
 modprobe ext4
 echo "download"
-#wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
-wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
+wget --no-check-certificate https://download.mikrotik.com/routeros/7.11beta4/chr-7.11beta4.img.zip -O /run/chr.img.zip
+#wget --no-check-certificate https://download.mikrotik.com/routeros/7.8/chr-7.8.img.zip -O /run/chr.img.zip
 echo "unzip"
 unzip -p /run/chr.img.zip > /run/chr.img
 #echo "convert raw to qcow2"

@@ -16,10 +16,10 @@ unzip -p /run/chr.img.zip > /run/chr.img
 #echo "connect image as /dev/nbd0"
 #qemu-nbd -c /dev/nbd0 /root/chr.qcow2
 echo "connect image as /dev/loop5"
-df
+ls /dev/loop5*
 lsblk
 losetup -P /dev/loop5 /run/chr.img
-df
+ls /dev/loop5*
 lsblk
 #partprobe /dev/nbd0
 partprobe /dev/loop5
@@ -35,19 +35,19 @@ mkdir /run/tmpefipart
 echo "mount first partition"
 sleep 2
 mount -t ext2 /dev/loop5p1 /run/tmpmount/
-df
+ls /dev/loop5*
 lsblk
 echo "copy efi/boot files from first partition"
 rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
 #umount /dev/nbd0p1
 sleep 2
-df
+ls /dev/loop5*
 lsblk
 umount /run/tmpmount
 sleep 2
 partprobe /dev/loop5
-df
+ls /dev/loop5*
 sync
 lsblk
 sync
@@ -61,12 +61,12 @@ mkfs.vfat /dev/loop5p1
 mkfs.vfat /dev/loop5p1
 sleep 2
 partprobe /dev/loop5
-df
+ls /dev/loop5*
 lsblk
 echo "mount first partition"
 sleep 2
 mount -t vfat /dev/loop5p1 /run/tmpmount/
-df
+ls /dev/loop5*
 lsblk
 echo "copy efi/boot files to first partition"
 sleep 2
@@ -76,23 +76,23 @@ sleep 2
 partprobe /dev/loop5
 #umount /dev/nbd0p1
 sleep 2
-df
+ls /dev/loop5*
 lsblk
 umount /run/tmpmount
 sleep 2
 echo "mount second partition"
-df
+ls /dev/loop5*
 lsblk
 partprobe /dev/loop5
 sleep 2
-df
+ls /dev/loop5*
 lsblk
 mount -t ext4 /dev/loop5p2 /run/tmpmount/
 sleep 2
-df
+ls /dev/loop5*
 lsblk
 partprobe /dev/loop5
-df
+ls /dev/loop5*
 lsblk
 #echo
 #echo "in 5 seconds you can modify initial config of chr"
@@ -105,15 +105,15 @@ curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/
 echo "umount second partition"
 sleep 2
 partprobe /dev/loop5
-df
+ls /dev/loop5*
 lsblk
 #umount /dev/nbd0p2
 sleep 2
 umount /run/tmpmount
-df
+ls /dev/loop5*
 lsblk
 partprobe /dev/loop5
-df
+ls /dev/loop5*
 lsblk
 sleep 2
 echo "modify partition table"

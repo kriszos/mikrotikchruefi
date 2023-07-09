@@ -44,8 +44,8 @@ partprobe /dev/loop5
 df
 lsblk
 echo "format first partion as fat32"
-#mkfs.fat /dev/nbd0p1
-mkfs.vfat /dev/loop5p1
+mkfs.fat /dev/loop5p1
+#mkfs.vfat /dev/loop5p1
 sleep 2
 partprobe /dev/loop5
 df

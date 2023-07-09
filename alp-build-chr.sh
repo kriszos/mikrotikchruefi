@@ -48,7 +48,9 @@ umount /run/tmpmount
 sleep 2
 partprobe /dev/loop5
 df
+sync
 lsblk
+sync
 echo "format first partion as fat32"
 #mkfs.fat /dev/loop5p1
 mkfs.vfat /dev/loop5p1

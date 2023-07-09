@@ -36,7 +36,9 @@ echo "mount first partition"
 sleep 2
 while ! mount -t ext2 /dev/loop5p1 /run/tmpmount/
 do
+sync
 sleep 1
+partprobe /dev/loop5
 done
 ls /dev/loop5*
 lsblk
@@ -49,7 +51,9 @@ ls /dev/loop5*
 lsblk
 while ! umount /run/tmpmount
 do
+sync
 sleep 1
+partprobe /dev/loop5
 done
 sleep 2
 partprobe /dev/loop5
@@ -61,7 +65,9 @@ echo "format first partion as fat32"
 #mkfs.fat /dev/loop5p1
 while ! mkfs.vfat /dev/loop5p1
 do
+sync
 sleep 1
+partprobe /dev/loop5
 done
 sleep 2
 partprobe /dev/loop5
@@ -71,7 +77,9 @@ echo "mount first partition"
 sleep 2
 while ! mount -t vfat /dev/loop5p1 /run/tmpmount/
 do
+sync
 sleep 1
+partprobe /dev/loop5
 done
 ls /dev/loop5*
 lsblk
@@ -87,7 +95,9 @@ ls /dev/loop5*
 lsblk
 while ! umount /run/tmpmount
 do
+sync
 sleep 1
+partprobe /dev/loop5
 done
 sleep 2
 echo "mount second partition"
@@ -99,7 +109,9 @@ ls /dev/loop5*
 lsblk
 while ! mount -t ext4 /dev/loop5p2 /run/tmpmount/
 do
+sync
 sleep 1
+partprobe /dev/loop5
 done
 sleep 2
 ls /dev/loop5*
@@ -119,7 +131,9 @@ lsblk
 sleep 2
 while ! umount /run/tmpmount
 do
+sync
 sleep 1
+partprobe /dev/loop5
 done
 ls /dev/loop5*
 lsblk

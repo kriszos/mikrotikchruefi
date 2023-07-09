@@ -26,6 +26,12 @@ partprobe /dev/loop5
 echo "create tmp directories"
 mkdir /run/tmpmount
 mkdir /run/tmpefipart
+mkdir /run/tmpmount
+mkdir /run/tmpefipart
+mkdir /run/tmpmount
+mkdir /run/tmpefipart
+mkdir /run/tmpmount
+mkdir /run/tmpefipart
 echo "mount first partition"
 sleep 2
 mount -t ext2 /dev/loop5p1 /run/tmpmount/

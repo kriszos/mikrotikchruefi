@@ -23,28 +23,39 @@ echo "create tmp directories"
 mkdir /run/tmpmount
 mkdir /run/tmpefipart
 echo "mount first partition"
+sleep 2
 mount -t ext2 /dev/loop5p1 /run/tmpmount/
 echo "copy efi/boot files from first partition"
 rsync -a /run/tmpmount/ /run/tmpefipart/
 echo "umount first partition"
 #umount /dev/nbd0p1
+sleep 2
 umount /run/tmpmount
+sleep 2
 partprobe /dev/loop5
 echo "format first partion as fat32"
 #mkfs.fat /dev/nbd0p1
 mkfs.vfat /dev/loop5p1
+sleep 2
 partprobe /dev/loop5
 echo "mount first partition"
+sleep 2
 mount -t vfat /dev/loop5p1 /run/tmpmount/
 echo "copy efi/boot files to first partition"
+sleep 2
 rsync -a /run/tmpefipart/ /run/tmpmount/
 echo "umount first partition"
+sleep 2
 partprobe /dev/loop5
 #umount /dev/nbd0p1
+sleep 2
 umount /run/tmpmount
+sleep 2
 echo "mount second partition"
 partprobe /dev/loop5
+sleep 2
 mount -t ext4 /dev/loop5p2 /run/tmpmount/
+sleep 2
 partprobe /dev/loop5
 #echo
 #echo "in 5 seconds you can modify initial config of chr"
@@ -55,10 +66,13 @@ echo "curl from lxd user-data"
 curl -s --unix-socket /dev/lxd/sock lxd/1.0/config/cloud-init.user-data >> /run/tmpmount/rw/autorun.scr
 #nano /run/tmpmount/rw/autorun.scr
 echo "umount second partition"
+sleep 2
 partprobe /dev/loop5
 #umount /dev/nbd0p2
+sleep 2
 umount /run/tmpmount
 partprobe /dev/loop5
+sleep 2
 echo "modify partition table"
 #exit 0
 (

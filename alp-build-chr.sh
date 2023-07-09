@@ -44,7 +44,7 @@ partprobe /dev/loop5
 umount /run/tmpmount
 echo "mount second partition"
 partprobe /dev/loop5
-mount -t ext3 /dev/loop5p2 /run/tmpmount/
+mount -t ext4 /dev/loop5p2 /run/tmpmount/
 partprobe /dev/loop5
 #echo
 #echo "in 5 seconds you can modify initial config of chr"
